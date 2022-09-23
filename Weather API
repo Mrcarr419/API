@@ -1,0 +1,31 @@
+import geocoder
+import requests
+
+
+API_KEY = '00000000000000000000000000000000'
+.
+
+API_BASE_URL = f'https://api.openweathermap.org/data/2.5/weather?units=imperial&appid={API_KEY}'
+
+destinations = ['Space Needle', 'Crater Lake', 'Golden Gate Bridge', 'Yosemite National Park', 
+  'Las Vegas, Nevada', 'Grand Canyon National Park', 'Aspen, Colorado', 'Mount Rushmore', 'Yellowstone National Park', 'Sandpoint, Idaho', 'Banff National Park', 'Capilano Suspension Bridge']
+
+def main():
+  
+  for destination in destinations:
+    location_api_result = geocoder.arcgis(destination) 
+    latitude = location_api_result.latlng[0]
+    longitude = location_api_result.latlng[1]
+    print(location_api_result.address,f'is located at ({latitude:.2f},{longitude:.2f})')
+    
+    full_api_url = API_BASE_URL + '&lat=' + str(latitude) + '&lon=' + str(longitude)
+    weather_api_result = requests.get(full_api_url).json()
+
+    description = weather_api_result['weather'][0]['description']
+    temp = weather_api_result['main']['temp']
+
+
+    print(f'At {destination} right now, it\'s {description} with a temperature of {temp}°F','\n')
+    
+
+main()
