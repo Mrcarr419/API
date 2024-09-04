@@ -5,7 +5,7 @@ import requests
 #Puulled an API from open weather API
 API_KEY = '00000000000000000000000000000000'
 
-#
+#Used the weather API to search the the weather of the different locations
 API_BASE_URL = f'https://api.openweathermap.org/data/2.5/weather?units=imperial&appid={API_KEY}'
 
 destinations = ['Space Needle', 'Crater Lake', 'Golden Gate Bridge', 'Yosemite National Park', 
@@ -21,15 +21,15 @@ def main():
     longitude = location_api_result.latlng[1]
     print(location_api_result.address,f'is located at ({latitude:.2f},{longitude:.2f})')
 
-#
+#this code is puulling the actual weather in the lattitude and longitude of the different areas
     full_api_url = API_BASE_URL + '&lat=' + str(latitude) + '&lon=' + str(longitude)
     weather_api_result = requests.get(full_api_url).json()
 
-#
+#this code is being used forthe description of the weather in the area
     description = weather_api_result['weather'][0]['description']
     temp = weather_api_result['main']['temp']
 
-#printed the destination f string with the tempeture of the location
+#printed the destination using an f string with the tempeture of the location
     print(f'At {destination} right now, it\'s {description} with a temperature of {temp}°F','\n')
     
 #Pulled main to run the code
